@@ -1,6 +1,6 @@
 import dash  # (version 1.11.0)
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import pandas as pd
 import plotly.express as px     # (version 4.6.0)
 from dash.dependencies import Input, Output
@@ -9,7 +9,8 @@ app = dash.Dash(__name__)
 
 # ------------------------------------------------------------------------
 # Import and filter data into pandas data frame
-df = pd.read_csv("https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Dash%20Components/Input_element/dup_bees.csv")
+df = pd.read_csv(
+    "https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Dash%20Components/Input_element/dup_bees.csv")
 df['Value'] = pd.to_numeric(df['Value'])
 mapping = {'HONEY, BEE COLONIES, AFFECTED BY DISEASE - INVENTORY, MEASURED IN PCT OF COLONIES': 'Disease',
            'HONEY, BEE COLONIES, AFFECTED BY OTHER CAUSES - INVENTORY, MEASURED IN PCT OF COLONIES': 'Other',
@@ -18,7 +19,8 @@ mapping = {'HONEY, BEE COLONIES, AFFECTED BY DISEASE - INVENTORY, MEASURED IN PC
            'HONEY, BEE COLONIES, AFFECTED BY UNKNOWN CAUSES - INVENTORY, MEASURED IN PCT OF COLONIES': 'Unknown',
            'HONEY, BEE COLONIES, AFFECTED BY VARROA MITES - INVENTORY, MEASURED IN PCT OF COLONIES': 'Varroa_mites'}
 df['Data Item'] = df['Data Item'].map(mapping)
-df.rename(columns={'Data Item': 'Affected by', 'Value': 'Percent of Colonies Impacted'}, inplace=True)
+df.rename(columns={'Data Item': 'Affected by',
+          'Value': 'Percent of Colonies Impacted'}, inplace=True)
 
 state_codes = {
     'District of Columbia': 'dc', 'Mississippi': 'MS', 'Oklahoma': 'OK',
@@ -38,21 +40,26 @@ state_codes = {
     'Nevada': 'NV', 'Maine': 'ME'}
 df['state_code'] = df['State'].apply(lambda x: state_codes[x])
 
-df = df.groupby(['State', 'State ANSI', 'Affected by', 'Year', 'state_code'])[['Percent of Colonies Impacted']].mean()
+df = df.groupby(['State', 'State ANSI', 'Affected by', 'Year', 'state_code'])[
+    ['Percent of Colonies Impacted']].mean()
 df.reset_index(inplace=True)
 
 # ------------------------------------------------------------------------
 
-input_types = ['number', 'password', 'text', 'tel', 'email', 'url', 'search', 'hidden']
+input_types = ['number', 'password', 'text',
+               'tel', 'email', 'url', 'search', 'hidden']
 
 app.layout = html.Div([
     html.Div([
         dcc.Input(
             id='my_{}'.format(x),
             type=x,
-            placeholder="insert {}".format(x),  # A hint to the user of what can be entered in the control
-            debounce=True,                      # Changes to input are sent to Dash server only on enter or losing focus
-            min=2015, max=2019, step=1,         # Ranges of numeric value. Step refers to increments
+            # A hint to the user of what can be entered in the control
+            placeholder="insert {}".format(x),
+            # Changes to input are sent to Dash server only on enter or losing focus
+            debounce=True,
+            # Ranges of numeric value. Step refers to increments
+            min=2015, max=2019, step=1,
             minLength=0, maxLength=50,          # Ranges for character length inside input box
             autoComplete='on',
             disabled=False,                     # Disable input box
@@ -122,14 +129,15 @@ def update_graph(num_year, pwd_state, txt_state, tel_state, email_, url_, search
         labels={'Percent of Colonies Impacted': '% of Bee Colonies'}
     )
 
-    beemap.update_layout(title={'x': 0.5, 'xanchor': 'center', 'font': {'size': 20}})
+    beemap.update_layout(
+        title={'x': 0.5, 'xanchor': 'center', 'font': {'size': 20}})
 
-    beemap.update_traces(hovertemplate=
-                         "<b>%{customdata[0]}</b><br><br>" +
+    beemap.update_traces(hovertemplate="<b>%{customdata[0]}</b><br><br>" +
                          "Percent of Colonies Impacted: %{customdata[1]:.3s}" +
                          "<extra></extra>",
                          )
     return (beemap)
+
 
 # ------------------------------------------------------------------------
 if __name__ == '__main__':

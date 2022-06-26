@@ -1,7 +1,7 @@
 import dash                     # pip install dash
 from dash.dependencies import Input, Output
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import plotly.express as px     # pip install plotly==5.2.2
 
 import pandas as pd             # pip install pandas

@@ -1,7 +1,8 @@
 import dash  # pip install dash
-import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
-import dash_html_components as html
-import dash_core_components as dcc
+# pip install dash-bootstrap-components
+import dash_bootstrap_components as dbc
+from dash import html
+from dash import dcc
 import plotly.express as px
 from dash.dependencies import Input, Output
 import dash_extensions as de  # pip install dash-extensions
@@ -9,7 +10,8 @@ import dash_extensions as de  # pip install dash-extensions
 # Lotties: Emil at https://github.com/thedirtyfew/dash-extensions
 url = "https://assets1.lottiefiles.com/private_files/lf30_WdTEui.json"
 url2 = "https://assets9.lottiefiles.com/packages/lf20_CYBIbn.json"
-options = dict(loop=True, autoplay=True, rendererSettings=dict(preserveAspectRatio='xMidYMid slice'))
+options = dict(loop=True, autoplay=True, rendererSettings=dict(
+    preserveAspectRatio='xMidYMid slice'))
 
 
 df = px.data.gapminder()
@@ -21,8 +23,10 @@ card_main = dbc.Card(
 
         dbc.CardBody(
             [
-                html.Div(de.Lottie(options=options, width="50%", height="50%", url=url)),
-                html.H4("Learn Dash with Charming Data", className="card-title"),
+                html.Div(de.Lottie(options=options,
+                         width="50%", height="50%", url=url)),
+                html.H4("Learn Dash with Charming Data",
+                        className="card-title"),
                 html.H6("Lesson 1:", className="card-subtitle"),
                 html.P(
                     "Choose the year you would like to see on the bubble chart.",
@@ -44,9 +48,11 @@ card_main = dbc.Card(
 card_question = dbc.Card(
     [
         dbc.CardBody([
-            html.Div(de.Lottie(options=options, width="50%", height="50%", url=url2, speed=1)),
+            html.Div(de.Lottie(options=options, width="50%",
+                     height="50%", url=url2, speed=1)),
             html.H4("Question 1", className="card-title"),
-            html.P("What was India's life expectancy in 1952?", className="card-text"),
+            html.P("What was India's life expectancy in 1952?",
+                   className="card-text"),
             dbc.ListGroup(
                 [
                     dbc.ListGroupItem("A. 55 years"),
@@ -58,7 +64,7 @@ card_question = dbc.Card(
 )
 
 card_graph = dbc.Card(
-        dcc.Graph(id='my_bar', figure={}), body=True, color="secondary", className="mt-3"
+    dcc.Graph(id='my_bar', figure={}), body=True, color="secondary", className="mt-3"
 )
 
 

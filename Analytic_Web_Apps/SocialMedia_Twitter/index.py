@@ -1,7 +1,7 @@
 import dash_bootstrap_components as dbc
 import dash
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 from dash.dependencies import Output, Input
 import twitter  # pip install python-twitter
 from app import app, api
@@ -17,9 +17,12 @@ app_tabs = html.Div(
     [
         dbc.Tabs(
             [
-                dbc.Tab(label="Mentions", tab_id="tab-mentions", labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
-                dbc.Tab(label="Trends", tab_id="tab-trends", labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
-                dbc.Tab(label="Other", tab_id="tab-other", labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
+                dbc.Tab(label="Mentions", tab_id="tab-mentions",
+                        labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
+                dbc.Tab(label="Trends", tab_id="tab-trends",
+                        labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
+                dbc.Tab(label="Other", tab_id="tab-other",
+                        labelClassName="text-success font-weight-bold", activeLabelClassName="text-danger"),
             ],
             id="tabs",
             active_tab="tab-mentions",
@@ -36,6 +39,7 @@ app.layout = dbc.Container([
 
 ])
 
+
 @app.callback(
     Output("content", "children"),
     [Input("tabs", "active_tab")]
@@ -50,6 +54,5 @@ def switch_tab(tab_chosen):
     return html.P("This shouldn't be displayed for now...")
 
 
-
-if __name__=='__main__':
+if __name__ == '__main__':
     app.run_server(debug=True)

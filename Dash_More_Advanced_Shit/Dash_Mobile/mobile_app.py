@@ -1,6 +1,6 @@
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Output, Input
 
 import plotly.express as px
@@ -17,7 +17,7 @@ app = dash.Dash(__name__,
 app.layout = html.Div([
     html.Div([
         html.Div('Baton Rouge Animal Control and Rescue Center',
-                 style={'textAlign':'center', 'fontSize':30}),
+                 style={'textAlign': 'center', 'fontSize': 30}),
 
         html.Br(),
     ], className='row'),
@@ -25,22 +25,22 @@ app.layout = html.Div([
     html.Div([
 
         html.Div([
-            html.P("Animal Condition:", style={'fontSize':15}),
+            html.P("Animal Condition:", style={'fontSize': 15}),
             dcc.Dropdown(id='drpdn1', value='FAIR',
                          options=[{'label': x, 'value': x}
                                   for x in sorted(df.condition.unique())]
                          ),
             dcc.Graph(id='graph1'),
-        ],className='six columns'),
+        ], className='six columns'),
 
         html.Div([
             html.P("Animal Characteristics:", style={'fontSize': 15}),
             dcc.Dropdown(id='drpdn2', value='size',
                          options=[{'label': x, 'value': x}
-                                  for x in df[['size','condition','temperment','sex']]],
+                                  for x in df[['size', 'condition', 'temperment', 'sex']]],
                          ),
             dcc.Graph(id='graph2'),
-        ],className='six columns')
+        ], className='six columns')
 
     ], className='row'),
 

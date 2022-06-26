@@ -4,8 +4,8 @@ import io
 
 import dash
 from dash.dependencies import Input, Output, State
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import dash_table
 import plotly.express as px
 
@@ -17,7 +17,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
                 suppress_callback_exceptions=True)
 
-app.layout = html.Div([ # this code section taken from Dash docs https://dash.plotly.com/dash-core-components/upload
+app.layout = html.Div([  # this code section taken from Dash docs https://dash.plotly.com/dash-core-components/upload
     dcc.Upload(
         id='upload-data',
         children=html.Div([
@@ -65,10 +65,10 @@ def parse_contents(contents, filename, date):
         html.H6(datetime.datetime.fromtimestamp(date)),
         html.P("Inset X axis data"),
         dcc.Dropdown(id='xaxis-data',
-                     options=[{'label':x, 'value':x} for x in df.columns]),
+                     options=[{'label': x, 'value': x} for x in df.columns]),
         html.P("Inset Y axis data"),
         dcc.Dropdown(id='yaxis-data',
-                     options=[{'label':x, 'value':x} for x in df.columns]),
+                     options=[{'label': x, 'value': x} for x in df.columns]),
         html.Button(id="submit-button", children="Create Graph"),
         html.Hr(),
 
@@ -103,9 +103,9 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
 
 
 @app.callback(Output('output-div', 'children'),
-              Input('submit-button','n_clicks'),
-              State('stored-data','data'),
-              State('xaxis-data','value'),
+              Input('submit-button', 'n_clicks'),
+              State('stored-data', 'data'),
+              State('xaxis-data', 'value'),
               State('yaxis-data', 'value'))
 def make_graphs(n, data, x_data, y_data):
     if n is None:
@@ -114,7 +114,6 @@ def make_graphs(n, data, x_data, y_data):
         bar_fig = px.bar(data, x=x_data, y=y_data)
         # print(data)
         return dcc.Graph(figure=bar_fig)
-
 
 
 if __name__ == '__main__':

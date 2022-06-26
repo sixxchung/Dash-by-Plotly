@@ -1,13 +1,14 @@
 import dash
 from dash.dependencies import Input, Output
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 
 import plotly.express as px
 import pandas as pd
 
 
-df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Callbacks/Client-side-callback/opsales.csv')
+df = pd.read_csv(
+    'https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Callbacks/Client-side-callback/opsales.csv')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -37,15 +38,13 @@ app.layout = html.Div([
 @app.callback(
     Output('clientside-graph', 'figure'),
     Input('shipping-type', 'value'),
-    Input('clientside-graph-title','value')
+    Input('clientside-graph-title', 'value')
 )
 def update_store_data(shipping, text):
     dff = df[df['Shipping Mode'] == shipping]
     fig = px.histogram(dff, x="Customer Segment", y="Sales",
-                 color='Department Name', title=text)
+                       color='Department Name', title=text)
     return fig
-
-
 
 
 # Serverside callback
@@ -81,10 +80,8 @@ def update_store_data(shipping, text):
 #     Input('clientside-store-figure', 'data'),
 #     Input('clientside-graph-title','value')
 # )
-
-
 if __name__ == '__main__':
     app.run_server(debug=True, port=1286)
 
-    
+
 # https://youtu.be/wHUzUHTPfo0

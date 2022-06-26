@@ -1,14 +1,15 @@
 import dash
 import dash_bootstrap_components as dbc
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 import plotly.express as px
 from dash.dependencies import Input, Output, State
 
 import pandas as pd
 
 # Data source: https://nextspaceflight.com/launches/past/?page=1 Data owner: "Agirlcoding" on Kaggle
-df = pd.read_csv("https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Space_Corrected.csv")
+df = pd.read_csv(
+    "https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Space_Corrected.csv")
 # print(df.head())
 df = df[df["Status Mission"] != "Prelaunch Failure"]
 
@@ -30,11 +31,11 @@ app.layout = html.Div([
             id="collapse_pie", is_open=False), width=4),
         dbc.Col(dbc.Collapse(
             dcc.Graph(id="hist_chart", config={'displayModeBar': False},
-                      figure=px.histogram(df, x="Mission Cost", range_x=[0,500])),
+                      figure=px.histogram(df, x="Mission Cost", range_x=[0, 500])),
             id="collapse_hist", is_open=False), width=4),
         dbc.Col(dbc.Collapse(
             dcc.Graph(id="strip_chart", config={'displayModeBar': False},
-                      figure=px.strip(df, x="Mission Cost", y="Status Mission", range_x=[0,220])),
+                      figure=px.strip(df, x="Mission Cost", y="Status Mission", range_x=[0, 220])),
             id="collapse_strip", is_open=False), width=4),
     ])
 ])
@@ -76,5 +77,5 @@ def toggle_collapse(n, is_open):
 if __name__ == "__main__":
     app.run_server(debug=True, port=3000)
 
-    
+
 # https://youtu.be/RnJGlgc9vcM

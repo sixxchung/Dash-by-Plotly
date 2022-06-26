@@ -1,8 +1,8 @@
 import dash     # need Dash version 1.21.0 or higher
 from dash.dependencies import Input, Output, State
 import dash_table
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 
 import pandas as pd
 import plotly.express as px
@@ -38,13 +38,15 @@ app.layout = html.Div([
 ])
 
 # Display Datatable with data from Mongo database *************************
+
+
 @app.callback(Output('mongo-datatable', 'children'),
               [Input('interval_db', 'n_intervals')])
 def populate_datatable(n_intervals):
     print(n_intervals)
     # Convert the Collection (table) date to a pandas DataFrame
     df = pd.DataFrame(list(collection.find()))
-    #Drop the _id column generated automatically by Mongo
+    # Drop the _id column generated automatically by Mongo
     df = df.iloc[:, 1:]
     print(df.head(20))
 
@@ -104,11 +106,13 @@ def save_data(n_clicks, data):
 )
 def add_row(data):
     df_grpah = pd.DataFrame(data)
-    fig_hist1 = px.histogram(df_grpah, x='age',color="animal")
+    fig_hist1 = px.histogram(df_grpah, x='age', color="animal")
     fig_hist2 = px.histogram(df_grpah, x="neutered")
     return [
-        html.Div(children=[dcc.Graph(figure=fig_hist1)], className="six columns"),
-        html.Div(children=[dcc.Graph(figure=fig_hist2)], className="six columns")
+        html.Div(children=[dcc.Graph(figure=fig_hist1)],
+                 className="six columns"),
+        html.Div(children=[dcc.Graph(figure=fig_hist2)],
+                 className="six columns")
     ]
 
 

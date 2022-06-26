@@ -1,13 +1,14 @@
 import dash                     # pip install dash
 from dash.dependencies import Input, Output, State
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import plotly.express as px     # pip install plotly==5.2.2
 
 import pandas as pd             # pip install pandas
 # Data: https://www.dallasopendata.com/Services/Animals-Inventory/qgg6-h4bd
 
-df = pd.read_csv("https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Analytic_Web_Apps/Excel_to_Dash_Animal_Shelter/Animals_Inventory.csv")
+df = pd.read_csv(
+    "https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Analytic_Web_Apps/Excel_to_Dash_Animal_Shelter/Animals_Inventory.csv")
 df["intake_time"] = pd.to_datetime(df["intake_time"])
 df["intake_time"] = df["intake_time"].dt.hour
 print(df.head())
@@ -17,7 +18,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div([
-    html.H1("Analytics Dashboard of Dallas Animal Shelter (Dash Plotly)", style={"textAlign":"center"}),
+    html.H1("Analytics Dashboard of Dallas Animal Shelter (Dash Plotly)",
+            style={"textAlign": "center"}),
     html.Hr(),
     html.P("Choose animal of interest:"),
     html.Div(html.Div([
@@ -25,7 +27,7 @@ app.layout = html.Div([
                      value="DOG",
                      options=[{'label': x, 'value': x} for x in
                               df["animal_type"].unique()]),
-    ],className="two columns"),className="row"),
+    ], className="two columns"), className="row"),
 
     html.Div(id="output-div", children=[]),
 ])
@@ -33,10 +35,10 @@ app.layout = html.Div([
 
 @app.callback(Output(component_id="output-div", component_property="children"),
               Input(component_id="animal-type", component_property="value"),
-)
+              )
 def make_graphs(animal_chosen):
     # HISTOGRAM
-    df_hist = df[df["animal_type"]==animal_chosen]
+    df_hist = df[df["animal_type"] == animal_chosen]
     fig_hist = px.histogram(df_hist, x="animal_breed")
     fig_hist.update_xaxes(categoryorder="total descending")
 
@@ -45,11 +47,13 @@ def make_graphs(animal_chosen):
 
     # SUNBURST
     df_sburst = df.dropna(subset=['chip_status'])
-    df_sburst = df_sburst[df_sburst["intake_type"].isin(["STRAY", "FOSTER", "OWNER SURRENDER"])]
-    fig_sunburst = px.sunburst(df_sburst, path=["animal_type", "intake_type", "chip_status"])
+    df_sburst = df_sburst[df_sburst["intake_type"].isin(
+        ["STRAY", "FOSTER", "OWNER SURRENDER"])]
+    fig_sunburst = px.sunburst(
+        df_sburst, path=["animal_type", "intake_type", "chip_status"])
 
     # Empirical Cumulative Distribution
-    df_ecdf = df[df["animal_type"].isin(["DOG","CAT"])]
+    df_ecdf = df[df["animal_type"].isin(["DOG", "CAT"])]
     fig_ecdf = px.ecdf(df_ecdf, x="animal_stay_days", color="animal_type")
 
     # LINE CHART
@@ -64,10 +68,11 @@ def make_graphs(animal_chosen):
             html.Div([dcc.Graph(figure=fig_hist)], className="six columns"),
             html.Div([dcc.Graph(figure=fig_strip)], className="six columns"),
         ], className="row"),
-        html.H2("All Animals", style={"textAlign":"center"}),
+        html.H2("All Animals", style={"textAlign": "center"}),
         html.Hr(),
         html.Div([
-            html.Div([dcc.Graph(figure=fig_sunburst)], className="six columns"),
+            html.Div([dcc.Graph(figure=fig_sunburst)],
+                     className="six columns"),
             html.Div([dcc.Graph(figure=fig_ecdf)], className="six columns"),
         ], className="row"),
         html.Div([

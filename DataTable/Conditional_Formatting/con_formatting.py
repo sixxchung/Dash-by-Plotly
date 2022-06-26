@@ -1,7 +1,7 @@
 import dash  # you need Dash version 1.15.0 or higher
 import dash_table
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 from dash.dependencies import Input, Output
 
 import pandas as pd
@@ -22,15 +22,23 @@ app.layout = html.Div([
     dash_table.DataTable(
         id='mydatatable',
         columns=[
-            {'name': 'S/N', 'id': 'Serial number', 'type': 'numeric', 'editable': True},
-            {'name': 'Machines', 'id': 'Machines', 'type': 'numeric', 'editable': False},
+            {'name': 'S/N', 'id': 'Serial number',
+                'type': 'numeric', 'editable': True},
+            {'name': 'Machines', 'id': 'Machines',
+                'type': 'numeric', 'editable': False},
             {'name': 'Country', 'id': 'Country', 'type': 'text', 'editable': True},
-            {'name': 'Part sent date', 'id': 'Part sent date', 'type': 'datetime', 'editable': True},
-            {'name': 'Part received date', 'id': 'Part received date', 'type': 'datetime', 'editable': True},
-            {'name': 'Elapsed Days', 'id': 'Elapsed Days', 'type': 'numeric', 'editable': True},
-            {'name': 'Origin supplier', 'id': 'Origin supplier', 'type': 'text', 'editable': True},
-            {'name': 'Feedback', 'id': 'Feedback', 'type': 'text', 'editable': True},
-            {'name': 'Prioritize', 'id': 'Prioritize', 'type': 'text', 'editable': False},
+            {'name': 'Part sent date', 'id': 'Part sent date',
+                'type': 'datetime', 'editable': True},
+            {'name': 'Part received date', 'id': 'Part received date',
+                'type': 'datetime', 'editable': True},
+            {'name': 'Elapsed Days', 'id': 'Elapsed Days',
+                'type': 'numeric', 'editable': True},
+            {'name': 'Origin supplier', 'id': 'Origin supplier',
+                'type': 'text', 'editable': True},
+            {'name': 'Feedback', 'id': 'Feedback',
+                'type': 'text', 'editable': True},
+            {'name': 'Prioritize', 'id': 'Prioritize',
+                'type': 'text', 'editable': False},
 
         ],
         data=df.to_dict('records'),

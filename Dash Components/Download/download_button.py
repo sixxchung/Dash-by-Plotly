@@ -1,7 +1,7 @@
 import dash
 from dash.dependencies import Output, Input
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 import dash_bootstrap_components as dbc
 import dash_table
 import pandas as pd
@@ -10,7 +10,8 @@ FONT_AWESOME = (
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 )
 
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
+df = pd.read_csv(
+    'https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
 
 external_stylesheets = [dbc.themes.BOOTSTRAP, FONT_AWESOME]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -25,10 +26,11 @@ app.layout = dbc.Container(
         ),
 
         dbc.Button(id='btn',
-            children=[html.I(className="fa fa-download mr-1"), "Download"],
-            color="info",
-            className="mt-1"
-        ),
+                   children=[
+                       html.I(className="fa fa-download mr-1"), "Download"],
+                   color="info",
+                   className="mt-1"
+                   ),
 
         dcc.Download(id="download-component"),
     ],

@@ -1,6 +1,6 @@
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Output, Input
 import dash_bootstrap_components as dbc
 
@@ -12,7 +12,7 @@ df = pd.read_csv('politics.csv')
 # radioItem list for the layout
 radio_list = [
     html.Div([
-        html.Label('AZ-11: ', style={'display':'inline', 'fontSize':15}),
+        html.Label('AZ-11: ', style={'display': 'inline', 'fontSize': 15}),
         dcc.RadioItems(
             id='radiolist-AZ',
             options=[
@@ -23,12 +23,12 @@ radio_list = [
             value='unsure',
             inputStyle={'margin-left': '10px'},
             labelStyle={'display': 'inline-block'},
-            style={'display':'inline'}
+            style={'display': 'inline'}
         ),
-    ], style={'textAlign':'end'}),
+    ], style={'textAlign': 'end'}),
 
     html.Div([
-        html.Label('FL-29: ', style={'display':'inline'}),
+        html.Label('FL-29: ', style={'display': 'inline'}),
         dcc.RadioItems(
             id='radiolist-FL',
             options=[
@@ -39,9 +39,9 @@ radio_list = [
             value='unsure',
             inputStyle={'margin-left': '10px'},
             labelStyle={'display': 'inline-block'},
-            style={'display':'inline'}
+            style={'display': 'inline'}
         ),
-    ], style={'textAlign':'end'})
+    ], style={'textAlign': 'end'})
 ]
 
 # Input list for the callback

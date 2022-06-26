@@ -1,13 +1,14 @@
 import dash
 from dash.dependencies import Input, Output, State
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 
 import plotly.express as px
 import pandas as pd
 
 # global dataframe saved on the server
-df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Callbacks/Client-side-callback/opsales1.csv')
+df = pd.read_csv(
+    'https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Callbacks/Client-side-callback/opsales1.csv')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -32,6 +33,8 @@ app.layout = html.Div([
 ])
 
 # Serverside callback
+
+
 @app.callback(
     Output('clientside-content', 'children'),
     Input('serverside-interval', 'n_intervals'),
@@ -70,6 +73,5 @@ def update_data(n_intervals):
 if __name__ == '__main__':
     app.run_server(debug=True, port=5559)
 
-    
-    
+
 # https://youtu.be/wHUzUHTPfo0

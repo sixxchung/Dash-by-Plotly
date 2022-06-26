@@ -1,6 +1,7 @@
-import dash             # pip istall dash THIS CODE WAS CREATED BY ANN W. AND SLIGHTLY ALTERED BY ME
+# pip istall dash THIS CODE WAS CREATED BY ANN W. AND SLIGHTLY ALTERED BY ME
+import dash
 import dash_labs as dl  # pip install -U dash-labs
-import dash_core_components as dcc
+from dash import dcc
 import plotly.express as px
 import dash_bootstrap_components as dbc
 # pip install -U dash-bootstrap-components spectra colormath requests tinycss2
@@ -11,7 +12,8 @@ tpl = dl.templates.DbcSidebar(
     # tab_roles=["line","histogram"], # only used for DbcSidebarTabs to define tabs
     title="Dash App Demo",
     sidebar_columns=3,
-    theme=dbc.themes.COSMO,     # change theme: https://hellodash.pythonanywhere.com/dash_labs
+    # change theme: https://hellodash.pythonanywhere.com/dash_labs
+    theme=dbc.themes.COSMO,
     figure_template=True,       # aligns plotly.py figure template with bootstrap theme
 )
 
@@ -22,7 +24,8 @@ print(df.head())
 
 # Create the app components **********************************************
 dropdown = dcc.Dropdown(
-    options=[{"label": str(i), "value": i} for i in ["gdpPercap", "lifeExp", "pop"]],
+    options=[{"label": str(i), "value": i}
+             for i in ["gdpPercap", "lifeExp", "pop"]],
     value="gdpPercap",
     clearable=False,
 )
@@ -46,12 +49,16 @@ range_slider = dcc.RangeSlider(
 # Create interaction between app components ******************************
 @app.callback(
     inputs=dict(
-        indicator=dl.Input(dropdown, label="Select indicator (y-axis)", component_property="value"),
-        continents=dl.Input(checklist, label="Select continents", component_property="value"),
-        years=dl.Input(range_slider, label="Select time period", component_property="value"),
+        indicator=dl.Input(
+            dropdown, label="Select indicator (y-axis)", component_property="value"),
+        continents=dl.Input(
+            checklist, label="Select continents", component_property="value"),
+        years=dl.Input(range_slider, label="Select time period",
+                       component_property="value"),
     ),
     output=dict(
-        div_content=tpl.div_output(component_property="children", role="output"),
+        div_content=tpl.div_output(
+            component_property="children", role="output"),
         # div_content2=tpl.div_output(component_property="children", role="histogram"),
     ),
     template=tpl,
@@ -86,6 +93,7 @@ def update_charts(years, indicator, continents):
         # div_content=dcc.Graph(figure=line_fig),
         # div_content2=dcc.Graph(figure=hist_fig)
     )
+
 
 app.layout = tpl.layout(app)
 

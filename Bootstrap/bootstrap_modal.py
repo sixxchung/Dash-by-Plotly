@@ -1,14 +1,16 @@
 import dash
 import dash_bootstrap_components as dbc
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 import plotly.express as px
 from dash.dependencies import Input, Output, State
 import pandas as pd
 
-df = pd.read_csv("https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Berlin_crimes.csv")
+df = pd.read_csv(
+    "https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Berlin_crimes.csv")
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP]) # https://bootswatch.com/default/
+# https://bootswatch.com/default/
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 modal = html.Div(
     [
@@ -22,21 +24,24 @@ modal = html.Div(
                         dbc.FormGroup(
                             [
                                 dbc.Label("Name", className="mr-2"),
-                                dbc.Input(type="text", placeholder="Enter your name"),
+                                dbc.Input(
+                                    type="text", placeholder="Enter your name"),
                             ],
                             className="mr-3",
                         ),
                         dbc.FormGroup(
                             [
                                 dbc.Label("Email", className="mr-2"),
-                                dbc.Input(type="email", placeholder="Enter email"),
+                                dbc.Input(type="email",
+                                          placeholder="Enter email"),
                             ],
                             className="mr-3",
                         ),
                         dbc.FormGroup(
                             [
                                 dbc.Label("Comment", className="mr-2"),
-                                dbc.Input(type="text", placeholder="Enter comment"),
+                                dbc.Input(
+                                    type="text", placeholder="Enter comment"),
                             ],
                             className="mr-3",
                         ),
@@ -69,7 +74,8 @@ image_card = dbc.Card(
         dbc.CardBody(
             [
                 html.H4("The Lovely City of Berlin", className="card-title"),
-                dbc.CardImg(src="/assets/berlinwall.jpg", title="Graffiti by Gabriel Heimler"),
+                dbc.CardImg(src="/assets/berlinwall.jpg",
+                            title="Graffiti by Gabriel Heimler"),
                 html.H6("Choose Berlin Districts:", className="card-text"),
                 html.Div(id="the_alert", children=[]),
                 dcc.Dropdown(id='district_chosen', options=[{'label': d, "value": d} for d in df["District"].unique()],
@@ -86,7 +92,8 @@ graph_card = dbc.Card(
     [
         dbc.CardBody(
             [
-                html.H4("Graffiti in Berlin 2012-2019", className="card-title", style={"text-align": "center"}),
+                html.H4("Graffiti in Berlin 2012-2019",
+                        className="card-title", style={"text-align": "center"}),
                 dbc.Button(
                     "About Berlin", id="popover-bottom-target", color="info"
                 ),
@@ -112,7 +119,8 @@ graph_card = dbc.Card(
 
 # *********************************************************************************************************
 app.layout = html.Div([
-    dbc.Row([dbc.Col(image_card, width=3), dbc.Col(graph_card, width=8)], justify="around")
+    dbc.Row([dbc.Col(image_card, width=3), dbc.Col(
+        graph_card, width=8)], justify="around")
 ])
 # *********************************************************************************************************
 
@@ -138,7 +146,8 @@ def update_graph_card(districts):
         return dash.no_update, alert
     else:
         df_filtered = df[df["District"].isin(districts)]
-        df_filtered = df_filtered.groupby(["Year", "District"])[['Graffiti']].median().reset_index()
+        df_filtered = df_filtered.groupby(["Year", "District"])[
+            ['Graffiti']].median().reset_index()
         fig = px.line(df_filtered, x="Year", y="Graffiti", color="District",
                       labels={"Graffiti": "Graffiti incidents (avg)"}).update_traces(mode='lines+markers')
         return fig, dash.no_update
@@ -158,5 +167,5 @@ def toggle_modal(n1, n2, is_open):
 if __name__ == "__main__":
     app.run_server(debug=True)
 
-    
+
 # https://youtu.be/X3OuhqS8ueM

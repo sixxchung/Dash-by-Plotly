@@ -1,12 +1,13 @@
 import dash                                # pip install dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Output, Input
-import dash_bootstrap_components as dbc    # pip install dash-bootstrap-components
+# pip install dash-bootstrap-components
+import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from alpha_vantage.timeseries import TimeSeries # pip install alpha-vantage
+from alpha_vantage.timeseries import TimeSeries  # pip install alpha-vantage
 
 
 # -------------------------------------------------------------------------------
@@ -31,7 +32,8 @@ from alpha_vantage.timeseries import TimeSeries # pip install alpha-vantage
 
 
 # Read the data we already downloaded from the API
-dff = pd.read_csv("https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Analytic_Web_Apps/Financial/data.csv")
+dff = pd.read_csv(
+    "https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Analytic_Web_Apps/Financial/data.csv")
 dff = dff[dff.indicator.isin(['high'])]
 
 
@@ -59,14 +61,14 @@ app.layout = dbc.Container([
 
                             dbc.Col([
                                 dcc.Graph(id='indicator-graph', figure={},
-                                          config={'displayModeBar':False})
+                                          config={'displayModeBar': False})
                             ])
                         ]),
 
                         dbc.Row([
                             dbc.Col([
                                 dcc.Graph(id='daily-line', figure={},
-                                          config={'displayModeBar':False})
+                                          config={'displayModeBar': False})
                             ])
                         ]),
 
@@ -100,20 +102,23 @@ app.layout = dbc.Container([
 ])
 
 # Indicator Graph
+
+
 @app.callback(
     Output('indicator-graph', 'figure'),
     Input('update', 'n_intervals')
 )
 def update_graph(timer):
     dff_rv = dff.iloc[::-1]
-    day_start = dff_rv[dff_rv['date'] == dff_rv['date'].min()]['rate'].values[0]
+    day_start = dff_rv[dff_rv['date'] ==
+                       dff_rv['date'].min()]['rate'].values[0]
     day_end = dff_rv[dff_rv['date'] == dff_rv['date'].max()]['rate'].values[0]
 
     fig = go.Figure(go.Indicator(
         mode="delta",
         value=day_end,
-        delta={'reference': day_start, 'relative': True, 'valueformat':'.2%'}))
-    fig.update_traces(delta_font={'size':12})
+        delta={'reference': day_start, 'relative': True, 'valueformat': '.2%'}))
+    fig.update_traces(delta_font={'size': 12})
     fig.update_layout(height=30, width=70)
 
     if day_end >= day_start:
@@ -124,7 +129,7 @@ def update_graph(timer):
     return fig
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     app.run_server(debug=True, port=3000)
 
  # https://youtu.be/iOkMaeU8dqE

@@ -1,6 +1,7 @@
-import dash             # pip istall dash THIS CODE WAS CREATED BY ANN W. AND SLIGHTLY ALTERED BY ME
+# pip istall dash THIS CODE WAS CREATED BY ANN W. AND SLIGHTLY ALTERED BY ME
+import dash
 import dash_labs as dl  # pip install -U dash-labs
-import dash_core_components as dcc
+from dash import dcc
 import plotly.express as px
 import dash_bootstrap_components as dbc
 # pip install -U dash-bootstrap-components spectra colormath requests tinycss2
@@ -10,7 +11,8 @@ import dash_bootstrap_components as dbc
 tpl = dl.templates.DbcSidebar(
     title="Dash App Demo",
     sidebar_columns=3,
-    theme=dbc.themes.COSMO,     # change theme: https://hellodash.pythonanywhere.com/dash_labs
+    # change theme: https://hellodash.pythonanywhere.com/dash_labs
+    theme=dbc.themes.COSMO,
     figure_template=True,       # aligns plotly.py figure template with bootstrap theme
 )
 
@@ -21,7 +23,8 @@ print(df.head())
 
 # Create the app components **********************************************
 dropdown = dcc.Dropdown(
-    options=[{"label": str(i), "value": i} for i in ["gdpPercap", "lifeExp", "pop"]],
+    options=[{"label": str(i), "value": i}
+             for i in ["gdpPercap", "lifeExp", "pop"]],
     value="gdpPercap",
     clearable=False,
 )
@@ -70,6 +73,7 @@ def update_charts(indicator, continents, years):
         dff, x="lifeExp", nbins=10, title=f"Life Expectancy {years[1]}")
 
     return [dcc.Graph(figure=line_fig), dcc.Graph(figure=hist_fig)]
+
 
 app.layout = tpl.layout(app)
 

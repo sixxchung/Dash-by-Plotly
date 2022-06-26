@@ -1,13 +1,14 @@
 import dash  # version 1.13.1
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output, ALL, State, MATCH, ALLSMALLER
 import plotly.express as px
 import pandas as pd
 import numpy as np
 
 df = pd.read_csv("Caste.csv")
-df.rename(columns={'under_trial': 'under trial', 'state_name': 'state'}, inplace=True)
+df.rename(columns={'under_trial': 'under trial',
+          'state_name': 'state'}, inplace=True)
 
 app = dash.Dash(__name__)
 
@@ -26,7 +27,8 @@ app.layout = html.Div([
 )
 def display_graphs(n_clicks, div_children):
     new_child = html.Div(
-        style={'width': '45%', 'display': 'inline-block', 'outline': 'thin lightgrey solid', 'padding': 10},
+        style={'width': '45%', 'display': 'inline-block',
+               'outline': 'thin lightgrey solid', 'padding': 10},
         children=[
             dcc.Graph(
                 id={
@@ -50,7 +52,8 @@ def display_graphs(n_clicks, div_children):
                     'type': 'dynamic-dpn-s',
                     'index': n_clicks
                 },
-                options=[{'label': s, 'value': s} for s in np.sort(df['state'].unique())],
+                options=[{'label': s, 'value': s}
+                         for s in np.sort(df['state'].unique())],
                 multi=True,
                 value=["Andhra Pradesh", "Maharashtra"],
             ),
@@ -59,7 +62,8 @@ def display_graphs(n_clicks, div_children):
                     'type': 'dynamic-dpn-ctg',
                     'index': n_clicks
                 },
-                options=[{'label': c, 'value': c} for c in ['caste', 'gender', 'state']],
+                options=[{'label': c, 'value': c}
+                         for c in ['caste', 'gender', 'state']],
                 value='state',
                 clearable=False
             ),
@@ -68,7 +72,8 @@ def display_graphs(n_clicks, div_children):
                     'type': 'dynamic-dpn-num',
                     'index': n_clicks
                 },
-                options=[{'label': n, 'value': n} for n in ['detenues', 'under trial', 'convicts', 'others']],
+                options=[{'label': n, 'value': n}
+                         for n in ['detenues', 'under trial', 'convicts', 'others']],
                 value='convicts',
                 clearable=False
             )
@@ -81,8 +86,10 @@ def display_graphs(n_clicks, div_children):
 @app.callback(
     Output({'type': 'dynamic-graph', 'index': MATCH}, 'figure'),
     [Input(component_id={'type': 'dynamic-dpn-s', 'index': MATCH}, component_property='value'),
-     Input(component_id={'type': 'dynamic-dpn-ctg', 'index': MATCH}, component_property='value'),
-     Input(component_id={'type': 'dynamic-dpn-num', 'index': MATCH}, component_property='value'),
+     Input(component_id={'type': 'dynamic-dpn-ctg',
+           'index': MATCH}, component_property='value'),
+     Input(component_id={'type': 'dynamic-dpn-num',
+           'index': MATCH}, component_property='value'),
      Input({'type': 'dynamic-choice', 'index': MATCH}, 'value')]
 )
 def update_graph(s_value, ctg_value, num_value, chart_choice):
@@ -90,14 +97,16 @@ def update_graph(s_value, ctg_value, num_value, chart_choice):
     dff = df[df['state'].isin(s_value)]
 
     if chart_choice == 'bar':
-        dff = dff.groupby([ctg_value], as_index=False)[['detenues', 'under trial', 'convicts', 'others']].sum()
+        dff = dff.groupby([ctg_value], as_index=False)[
+            ['detenues', 'under trial', 'convicts', 'others']].sum()
         fig = px.bar(dff, x=ctg_value, y=num_value)
         return fig
     elif chart_choice == 'line':
         if len(s_value) == 0:
             return {}
         else:
-            dff = dff.groupby([ctg_value, 'year'], as_index=False)[['detenues', 'under trial', 'convicts', 'others']].sum()
+            dff = dff.groupby([ctg_value, 'year'], as_index=False)[
+                ['detenues', 'under trial', 'convicts', 'others']].sum()
             fig = px.line(dff, x='year', y=num_value, color=ctg_value)
             return fig
     elif chart_choice == 'pie':

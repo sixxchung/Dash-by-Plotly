@@ -1,7 +1,7 @@
 import dash
 import dash_bootstrap_components as dbc
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 import plotly.express as px
 from dash.dependencies import Input, Output
 
@@ -15,7 +15,8 @@ card_main = dbc.Card(
                     title="Image by Kevin Dinkel", alt='Learn Dash Bootstrap Card Component'),
         dbc.CardBody(
             [
-                html.H4("Learn Dash with Charming Data", className="card-title"),
+                html.H4("Learn Dash with Charming Data",
+                        className="card-title"),
                 html.H6("Lesson 1:", className="card-subtitle"),
                 html.P(
                     "Choose the year you would like to see on the bubble chart.",
@@ -37,7 +38,8 @@ card_question = dbc.Card(
     [
         dbc.CardBody([
             html.H4("Question 1", className="card-title"),
-            html.P("What was India's life expectancy in 1952?", className="card-text"),
+            html.P("What was India's life expectancy in 1952?",
+                   className="card-text"),
             dbc.ListGroup(
                 [
                     dbc.ListGroupItem("A. 55 years"),
@@ -49,7 +51,7 @@ card_question = dbc.Card(
 )
 
 card_graph = dbc.Card(
-        dcc.Graph(id='my_bar', figure={}), body=True, color="secondary",
+    dcc.Graph(id='my_bar', figure={}), body=True, color="secondary",
 )
 
 
@@ -85,6 +87,6 @@ def update_graph(value):
 
 if __name__ == "__main__":
     app.run_server(debug=True)
-    
-    
+
+
 # https://youtu.be/aEz1-72PKwc

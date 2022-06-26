@@ -1,8 +1,8 @@
 import dash
 from dash.dependencies import Input, Output, State
 import dash_table
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 
 import pandas as pd
 import plotly.express as px
@@ -23,8 +23,10 @@ app.layout = html.Div([
     dash_table.DataTable(
         id='our-table',
         columns=[{'name': 'Product', 'id': 'Product', 'deletable': False, 'renamable': False},
-                 {'name': 'Version', 'id': 'Version', 'deletable': True, 'renamable': True},
-                 {'name': 'Price', 'id': 'Price', 'deletable': True, 'renamable': True},
+                 {'name': 'Version', 'id': 'Version',
+                     'deletable': True, 'renamable': True},
+                 {'name': 'Price', 'id': 'Price',
+                     'deletable': True, 'renamable': True},
                  {'name': 'Sales', 'id': 'Sales', 'deletable': False, 'renamable': False}],
         data=[{'Product': 'Iphone', 'Version': '6a', 'Price': 799, 'Sales': 2813},
               {'Product': 'Iphone', 'Version': '9', 'Price': 900, 'Sales': 5401},
@@ -41,9 +43,11 @@ app.layout = html.Div([
         sort_action="native",           # give user capability to sort columns
         sort_mode="single",             # sort across 'multi' or 'single' columns
         filter_action="native",         # allow filtering of columns
-        page_action='none',             # render all of the data at once. No paging.
+        # render all of the data at once. No paging.
+        page_action='none',
         style_table={'height': '300px', 'overflowY': 'auto'},
-        style_cell={'textAlign': 'left', 'minWidth': '100px', 'width': '100px', 'maxWidth': '100px'},
+        style_cell={'textAlign': 'left', 'minWidth': '100px',
+                    'width': '100px', 'maxWidth': '100px'},
         style_cell_conditional=[
             {
                 'if': {'column_id': c},
@@ -120,7 +124,8 @@ def df_to_csv(n_clicks, n_intervals, dataset, s):
                             style={'color': 'green', 'font-weight': 'bold', 'font-size': 'large'})
     no_output = html.Plaintext("", style={'margin': "0px"})
 
-    input_triggered = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
+    input_triggered = dash.callback_context.triggered[0]["prop_id"].split(".")[
+        0]
 
     if input_triggered == "save_to_csv":
         s = 6

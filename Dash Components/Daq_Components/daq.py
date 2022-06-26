@@ -1,7 +1,7 @@
 import dash
 from dash.dependencies import Input, Output
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 import dash_daq as daq
 import plotly.graph_objects as go
 from random import randrange
@@ -101,6 +101,5 @@ def update_g(toggle):
 if __name__ == "__main__":
     app.run_server(debug=True, port=3030)
 
-    
-    
+
 # https://youtu.be/t3cLkzJAUgo

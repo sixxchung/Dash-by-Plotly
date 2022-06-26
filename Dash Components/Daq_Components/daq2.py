@@ -1,6 +1,6 @@
 import dash
 from dash.dependencies import Input, Output
-import dash_html_components as html
+from dash import html
 import dash_daq as daq
 
 
@@ -30,7 +30,8 @@ app.layout = html.Div(
                     className="two columns",
                 ),
                 html.Div(
-                    daq.Thermometer(id="my-thermometer", min=30, max=99, value=40),
+                    daq.Thermometer(id="my-thermometer",
+                                    min=30, max=99, value=40),
                     className="three columns",
                 ),
             ],
@@ -39,7 +40,8 @@ app.layout = html.Div(
         html.Div(
             [
                 html.Div(
-                    daq.LEDDisplay(id="my-leddisplay", value="40", color="#39FF14"),
+                    daq.LEDDisplay(id="my-leddisplay",
+                                   value="40", color="#39FF14"),
                     className="four columns",
                 ),
                 html.Div(
@@ -73,6 +75,5 @@ def update(knob_value, color_chosen):
 if __name__ == "__main__":
     app.run_server(port=3040, debug=True)
 
-    
-    
+
 # https://youtu.be/t3cLkzJAUgo

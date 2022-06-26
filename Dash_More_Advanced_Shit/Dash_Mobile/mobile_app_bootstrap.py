@@ -1,6 +1,6 @@
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Output, Input
 import dash_bootstrap_components as dbc
 
@@ -20,14 +20,14 @@ app.layout = html.Div([
     dbc.Row([
         dbc.Col([
             html.Div('Baton Rouge Animal Control and Rescue Center',
-                     style={'textAlign':'center', 'fontSize':30}),
+                     style={'textAlign': 'center', 'fontSize': 30}),
             html.Br(),
         ], width={'size': 8})
     ], justify='center'),
 
     dbc.Row([
         dbc.Col([
-            html.P("Animal Condition:", style={'fontSize':15}),
+            html.P("Animal Condition:", style={'fontSize': 15}),
             dcc.Dropdown(id='drpdn1', value='FAIR',
                          options=[{'label': x, 'value': x}
                                   for x in sorted(df.condition.unique())]
@@ -39,7 +39,7 @@ app.layout = html.Div([
             html.P("Animal Characteristics:", style={'fontSize': 15}),
             dcc.Dropdown(id='drpdn2', value='size',
                          options=[{'label': x, 'value': x}
-                                  for x in df[['size','condition','temperment','sex']]],
+                                  for x in df[['size', 'condition', 'temperment', 'sex']]],
                          ),
             dcc.Graph(id='graph2'),
         ], xs=10, sm=5, md=5, lg=6, xl=5)

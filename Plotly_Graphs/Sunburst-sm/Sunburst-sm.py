@@ -7,8 +7,8 @@ import pandas as pd
 import numpy as np
 
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output
 
 app = dash.Dash(__name__)
@@ -17,17 +17,20 @@ server = app.server
 df_states = pd.read_csv("state_pop.csv")
 
 df = pd.read_csv("MPVDataset.csv")
-df["Victim's age"] = pd.to_numeric(df["Victim's age"], errors='coerce').fillna(0).astype(np.int64)
+df["Victim's age"] = pd.to_numeric(
+    df["Victim's age"], errors='coerce').fillna(0).astype(np.int64)
 df.rename(columns={'Body Camera (Source: WaPo)': 'Body camera', "Victim's gender": "Gender",
                    "Victim's age": 'Age', 'Fleeing (Source: WaPo)': 'Fleeing'}, inplace=True)
 # -------------------------------------------------------------------------------------------
 
 app.layout = html.Div([
 
-    html.H2("Deaths by Police (2013-2019)", style={'text-align': 'center', 'text-decoration': 'underline'}),
+    html.H2("Deaths by Police (2013-2019)",
+            style={'text-align': 'center', 'text-decoration': 'underline'}),
 
     html.Div([
-        html.P("Center of Sunburst to Analyze:", style={'font-weight': 'bold', 'text-decoration': 'underline'}),
+        html.P("Center of Sunburst to Analyze:", style={
+               'font-weight': 'bold', 'text-decoration': 'underline'}),
         html.Div([
             dcc.RadioItems(id='sunroot',
                            options=[
@@ -35,7 +38,8 @@ app.layout = html.Div([
                                {'label': 'Victim Gender', 'value': 'Gender'},
                                {'label': 'Victim Fleeing', 'value': 'Fleeing'},
                                {'label': 'Geography', 'value': 'Geography'},
-                               {'label': 'Police Body camera', 'value': 'Body camera'},
+                               {'label': 'Police Body camera',
+                                   'value': 'Body camera'},
                            ],
                            value='Unarmed',
                            labelStyle={'display': 'inline-block'}
@@ -46,7 +50,8 @@ app.layout = html.Div([
     html.P(),
 
     html.Div([
-        html.P("Age Breakdown:", style={'font-weight': 'bold', 'text-decoration': 'underline'}),
+        html.P("Age Breakdown:", style={
+               'font-weight': 'bold', 'text-decoration': 'underline'}),
         html.Div([
             dcc.RadioItems(id='age_breakdown',
                            options=[
@@ -64,7 +69,8 @@ app.layout = html.Div([
     html.Div([
 
         html.Div([
-            html.P("Select States:", style={'font-weight': 'bold', 'text-decoration': 'underline'}),
+            html.P("Select States:", style={
+                   'font-weight': 'bold', 'text-decoration': 'underline'}),
             html.Div([
                 dcc.Dropdown(id='dropdown1',
                              options=[
@@ -104,14 +110,17 @@ app.layout = html.Div([
             html.P(),
 
             html.Div([
-                html.P("Select Races:", style={'font-weight': 'bold', 'text-decoration': 'underline'}),
+                html.P("Select Races:", style={
+                       'font-weight': 'bold', 'text-decoration': 'underline'}),
                 dcc.Dropdown(id='dropdown_r',
                              options=[
                                  {'label': "Asian", 'value': 'Asian'},
                                  {'label': "Black", 'value': 'Black'},
                                  {'label': "Hispanic", 'value': 'Hispanic'},
-                                 {'label': "Native American", 'value': 'Native American'},
-                                 {'label': "Pacific Islander", 'value': 'Pacific Islander'},
+                                 {'label': "Native American",
+                                     'value': 'Native American'},
+                                 {'label': "Pacific Islander",
+                                     'value': 'Pacific Islander'},
                                  {'label': "White", 'value': 'White'}
                              ],
                              value=['White', 'Black', 'Hispanic'],

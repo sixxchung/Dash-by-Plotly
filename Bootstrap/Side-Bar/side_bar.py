@@ -1,15 +1,16 @@
 # Code source: https://dash-bootstrap-components.opensource.faculty.ai/examples/simple-sidebar/
 import dash
 import dash_bootstrap_components as dbc
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 import plotly.express as px
 from dash.dependencies import Input, Output
 import pandas as pd
 
 # data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
 # data owner: Chubak Bidpaa
-df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
+df = pd.read_csv(
+    'https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -68,28 +69,28 @@ app.layout = html.Div([
 def render_page_content(pathname):
     if pathname == "/":
         return [
-                html.H1('Kindergarten in Iran',
-                        style={'textAlign':'center'}),
-                dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls Kindergarten', 'Boys Kindergarten']))
-                ]
+            html.H1('Kindergarten in Iran',
+                    style={'textAlign': 'center'}),
+            dcc.Graph(id='bargraph',
+                      figure=px.bar(df, barmode='group', x='Years',
+                                    y=['Girls Kindergarten', 'Boys Kindergarten']))
+        ]
     elif pathname == "/page-1":
         return [
-                html.H1('Grad School in Iran',
-                        style={'textAlign':'center'}),
-                dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls Grade School', 'Boys Grade School']))
-                ]
+            html.H1('Grad School in Iran',
+                    style={'textAlign': 'center'}),
+            dcc.Graph(id='bargraph',
+                      figure=px.bar(df, barmode='group', x='Years',
+                                    y=['Girls Grade School', 'Boys Grade School']))
+        ]
     elif pathname == "/page-2":
         return [
-                html.H1('High School in Iran',
-                        style={'textAlign':'center'}),
-                dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls High School', 'Boys High School']))
-                ]
+            html.H1('High School in Iran',
+                    style={'textAlign': 'center'}),
+            dcc.Graph(id='bargraph',
+                      figure=px.bar(df, barmode='group', x='Years',
+                                    y=['Girls High School', 'Boys High School']))
+        ]
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
@@ -100,8 +101,8 @@ def render_page_content(pathname):
     )
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     app.run_server(debug=True, port=3000)
 
-    
+
 # https://youtu.be/ln8dyS2y4Nc

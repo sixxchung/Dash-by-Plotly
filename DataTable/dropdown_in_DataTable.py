@@ -1,6 +1,6 @@
-#code taken from https://dash.plot.ly/datatable/dropdowns
-import dash #(version 1.9.1) pip install dash==1.9.1
-import dash_html_components as html
+# code taken from https://dash.plot.ly/datatable/dropdowns
+import dash  # (version 1.9.1) pip install dash==1.9.1
+from dash import html
 import dash_table
 import pandas as pd
 from collections import OrderedDict
@@ -12,7 +12,7 @@ from collections import OrderedDict
 
 
 app = dash.Dash(__name__)
-#-------------------------------------------------------------------
+# -------------------------------------------------------------------
 # 1. DataTable with Per-Column Dropdowns
 
 df = pd.DataFrame(OrderedDict([
@@ -25,7 +25,7 @@ df = pd.DataFrame(OrderedDict([
 app.layout = html.Div([
     dash_table.DataTable(
         id='table-dropdown',
-        data=df.to_dict('records'),     #the contents of the table
+        data=df.to_dict('records'),  # the contents of the table
         columns=[
             {'id': 'climate', 'name': 'climate', 'presentation': 'dropdown'},
             {'id': 'temperature', 'name': 'temperature'},
@@ -33,9 +33,9 @@ app.layout = html.Div([
         ],
         editable=True,
 
-        dropdown={                      #dictionary of keys that represent column IDs,
-            'climate': {                #its values are 'options' and 'clearable'
-                'options': [            #'options' represents all rows' data under that column
+        dropdown={  # dictionary of keys that represent column IDs,
+            'climate': {  # its values are 'options' and 'clearable'
+                'options': [  # 'options' represents all rows' data under that column
                     {'label': i, 'value': i}
                     for i in df['climate'].unique()
                 ],
@@ -43,20 +43,20 @@ app.layout = html.Div([
                 'clearable':True
             },
             'city': {
-                'options':[
+                'options': [
                     {'label': 'NYC', 'value': 'NYC'},
                     {'label': 'Miami', 'value': 'Miami'},
                     {'label': 'Montreal', 'value': 'Montreal'}
                 ],
 
-                'clearable':False
+                'clearable': False
             }
         }
     ),
 ])
 
 
-#-------------------------------------------------------------------
+# -------------------------------------------------------------------
 # 2. DataTable with Per-Row Dropdowns (row-by-row: from first row to as many as you want)
 
 # df = pd.DataFrame(OrderedDict([
@@ -102,7 +102,7 @@ app.layout = html.Div([
 # ])
 
 
-#-------------------------------------------------------------------
+# -------------------------------------------------------------------
 # 3. DataTable with Per-Row-Col Dropdowns (conditional, you choose which row/column)
 
 # df = pd.DataFrame(OrderedDict([

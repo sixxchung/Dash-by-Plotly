@@ -1,6 +1,6 @@
 import dash  # use Dash version 1.16.0 or higher for this app to work
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Output, Input
 import plotly.express as px
 
@@ -10,12 +10,12 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div([
-    dcc.Dropdown(id='dpdn2', value=['Germany','Brazil'], multi=True,
+    dcc.Dropdown(id='dpdn2', value=['Germany', 'Brazil'], multi=True,
                  options=[{'label': x, 'value': x} for x in
                           df.country.unique()]),
     html.Div([
         dcc.Graph(id='pie-graph', figure={}, className='six columns'),
-        dcc.Graph(id='my-graph', figure={}, clickData=None, hoverData=None, # I assigned None for tutorial purposes. By defualt, these are None, unless you specify otherwise.
+        dcc.Graph(id='my-graph', figure={}, clickData=None, hoverData=None,  # I assigned None for tutorial purposes. By defualt, these are None, unless you specify otherwise.
                   config={
                       'staticPlot': False,     # True, False
                       'scrollZoom': True,      # True, False
@@ -24,9 +24,9 @@ app.layout = html.Div([
                       'displayModeBar': True,  # True, False, 'hover'
                       'watermark': True,
                       # 'modeBarButtonsToRemove': ['pan2d','select2d'],
-                        },
-                  className='six columns'
-                  )
+        },
+            className='six columns'
+        )
     ])
 ])
 
@@ -67,12 +67,13 @@ def update_side_graph(hov_data, clk_data, slct_data, country_chosen):
         dff2 = df[df.country.isin(country_chosen)]
         hov_year = hov_data['points'][0]['x']
         dff2 = dff2[dff2.year == hov_year]
-        fig2 = px.pie(data_frame=dff2, values='pop', names='country', title=f'Population for: {hov_year}')
+        fig2 = px.pie(data_frame=dff2, values='pop',
+                      names='country', title=f'Population for: {hov_year}')
         return fig2
 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-    
-    
+
+
 # https://youtu.be/G8r2BB3GFVY

@@ -1,5 +1,5 @@
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
@@ -11,7 +11,8 @@ PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../datasets").resolve()
 
 dfv = pd.read_csv(DATA_PATH.joinpath("vgsales.csv"))  # GregorySmith Kaggle
-sales_list = ["North American Sales", "EU Sales", "Japan Sales", "Other Sales",	"World Sales"]
+sales_list = ["North American Sales", "EU Sales",
+              "Japan Sales", "Other Sales",	"World Sales"]
 
 
 layout = html.Div([
@@ -20,7 +21,8 @@ layout = html.Div([
     html.Div([
         html.Div(dcc.Dropdown(
             id='genre-dropdown', value='Strategy', clearable=False,
-            options=[{'label': x, 'value': x} for x in sorted(dfv.Genre.unique())]
+            options=[{'label': x, 'value': x}
+                     for x in sorted(dfv.Genre.unique())]
         ), className='six columns'),
 
         html.Div(dcc.Dropdown(

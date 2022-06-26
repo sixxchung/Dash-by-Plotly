@@ -3,13 +3,14 @@ import plotly.express as px
 import pandas as pd
 
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Output, Input
 
 # read, clean, and filter the data----------------------------------------
 # data source: https://mappingpoliceviolence.org/aboutthedata
-df = pd.read_csv("https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Other/DPhi%20Presentation/MPVDataset.csv")
+df = pd.read_csv(
+    "https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Other/DPhi%20Presentation/MPVDataset.csv")
 
 df = df[df["Victim's race"].isin(["White", "Black", "Hispanic", "Asian"])]
 df["Victim's age"] = pd.to_numeric(df["Victim's age"], errors='coerce')
@@ -26,8 +27,7 @@ app.layout = html.Div([
 
     html.Div([
         dcc.Graph(id='my-barplot', figure={})
-    ])
-    ,
+    ]),
     html.Div(id='content-container', children='')
 ])
 
@@ -55,5 +55,5 @@ def update_graph(gender_chosen):
     return fig  # gender_chosen
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     app.run_server(debug=True, port=8002)

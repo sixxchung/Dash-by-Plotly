@@ -2,8 +2,8 @@
 import dash
 from dash.dependencies import Input, Output, State
 import dash_table
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 
 import pandas as pd
 import plotly.express as px
@@ -56,7 +56,8 @@ app.layout = html.Div([
         html.Button('Add Column', id='adding-columns-button', n_clicks=0)
     ], style={'height': 50}),
 
-    dcc.Interval(id='interval_pg', interval=86400000*7, n_intervals=0),  # activated once/week or when page refreshed
+    # activated once/week or when page refreshed
+    dcc.Interval(id='interval_pg', interval=86400000*7, n_intervals=0),
     html.Div(id='postgres_datatable'),
 
     html.Button('Add Row', id='editing-rows-button', n_clicks=0),
@@ -83,16 +84,16 @@ def populate_datatable(n_intervals):
         dash_table.DataTable(
             id='our-table',
             columns=[{
-                         'name': str(x),
-                         'id': str(x),
-                         'deletable': False,
-                     } if x == 'Sales' or x == 'Phone'
-                     else {
+                'name': str(x),
+                'id': str(x),
+                'deletable': False,
+            } if x == 'Sales' or x == 'Phone'
+                else {
                 'name': str(x),
                 'id': str(x),
                 'deletable': True,
             }
-                     for x in df.columns],
+                for x in df.columns],
             data=df.to_dict('records'),
             editable=True,
             row_deletable=True,
@@ -101,7 +102,8 @@ def populate_datatable(n_intervals):
             sort_mode="single",  # sort across 'multi' or 'single' columns
             page_action='none',  # render all of the data at once. No paging.
             style_table={'height': '300px', 'overflowY': 'auto'},
-            style_cell={'textAlign': 'left', 'minWidth': '100px', 'width': '100px', 'maxWidth': '100px'},
+            style_cell={'textAlign': 'left', 'minWidth': '100px',
+                        'width': '100px', 'maxWidth': '100px'},
             style_cell_conditional=[
                 {
                     'if': {'column_id': c},
@@ -169,12 +171,14 @@ def df_to_csv(n_clicks, n_intervals, dataset, s):
                             style={'color': 'green', 'font-weight': 'bold', 'font-size': 'large'})
     no_output = html.Plaintext("", style={'margin': "0px"})
 
-    input_triggered = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
+    input_triggered = dash.callback_context.triggered[0]["prop_id"].split(".")[
+        0]
 
     if input_triggered == "save_to_postgres":
         s = 6
         pg = pd.DataFrame(dataset)
-        pg.to_sql("productlist", con=db.engine, if_exists='replace', index=False)
+        pg.to_sql("productlist", con=db.engine,
+                  if_exists='replace', index=False)
         return output, s
     elif input_triggered == 'interval' and s > 0:
         s = s - 1

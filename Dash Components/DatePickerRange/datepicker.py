@@ -1,8 +1,8 @@
 from datetime import datetime as dt
 import plotly.express as px
 import dash
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 from dash.dependencies import Input, Output
 import pandas as pd
 
@@ -27,13 +27,18 @@ app.layout = html.Div([
         is_RTL=False,  # True or False for direction of calendar
         clearable=True,  # whether or not the user can clear the dropdown
         number_of_months_shown=1,  # number of months shown when calendar is open
-        min_date_allowed=dt(2018, 1, 1),  # minimum date allowed on the DatePickerRange component
-        max_date_allowed=dt(2020, 6, 20),  # maximum date allowed on the DatePickerRange component
-        initial_visible_month=dt(2020, 5, 1),  # the month initially presented when the user opens the calendar
+        # minimum date allowed on the DatePickerRange component
+        min_date_allowed=dt(2018, 1, 1),
+        # maximum date allowed on the DatePickerRange component
+        max_date_allowed=dt(2020, 6, 20),
+        # the month initially presented when the user opens the calendar
+        initial_visible_month=dt(2020, 5, 1),
         start_date=dt(2018, 8, 7).date(),
         end_date=dt(2020, 5, 15).date(),
-        display_format='MMM Do, YY',  # how selected dates are displayed in the DatePickerRange component.
-        month_format='MMMM, YYYY',  # how calendar headers are displayed when the calendar is opened.
+        # how selected dates are displayed in the DatePickerRange component.
+        display_format='MMM Do, YY',
+        # how calendar headers are displayed when the calendar is opened.
+        month_format='MMMM, YYYY',
         minimum_nights=2,  # minimum number of days between start and end date
 
         persistence=True,
@@ -43,7 +48,8 @@ app.layout = html.Div([
         updatemode='singledate'  # singledate or bothdates. Determines when callback is triggered
     ),
 
-    html.H3("Sidewalk Café Licenses and Applications", style={'textAlign': 'center'}),
+    html.H3("Sidewalk Café Licenses and Applications",
+            style={'textAlign': 'center'}),
     dcc.Graph(id='mymap')
 ])
 
@@ -69,5 +75,5 @@ def update_output(start_date, end_date):
 if __name__ == '__main__':
     app.run_server(debug=True, dev_tools_ui=False)
 
-    
+
 # https://youtu.be/5uwxoxaPD8M

@@ -2,8 +2,8 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 import dash
 import dash_table
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 from dash.dependencies import Output, Input
 import pandas as pd
 import twitter  # pip install python-twitter
@@ -18,8 +18,10 @@ stopwords = nltk.corpus.stopwords.words('english')
 stopwords = set(stopwords)
 stopwords.update(["https", "plotlygraphs"])
 
+
 def f(row):
     return "[{0}]({0})".format(row["url"])
+
 
 # layout of second (trends) tab ******************************************
 trends_layout = dbc.Container([
@@ -69,7 +71,7 @@ def display_trend(timer):
         columns=[
             {"name": i, "id": i}
             if i == "trending" or i == "volume"
-            else {"name": i, "id": i, 'type': 'text', "presentation":"markdown"}
+            else {"name": i, "id": i, 'type': 'text', "presentation": "markdown"}
             for i in df.columns
         ],
         data=df.to_dict('records'),
@@ -93,7 +95,8 @@ def display_trend(timer):
 def display_trend(timer):
     liked_twt = []
     # get tweets metadata that were liked by @Plotlygraphs
-    x = api.GetFavorites(screen_name='plotlygraphs', count=100, return_json=False)
+    x = api.GetFavorites(screen_name='plotlygraphs',
+                         count=100, return_json=False)
     # extract the tweet text, from the metadata, into a list
     for status in x:
         liked_twt.append(status.text)
@@ -114,4 +117,4 @@ def display_trend(timer):
     fig.update_xaxes(visible=False)
     fig.update_yaxes(visible=False)
 
-    return dcc.Graph(figure=fig, config={"displayModeBar":False})
+    return dcc.Graph(figure=fig, config={"displayModeBar": False})

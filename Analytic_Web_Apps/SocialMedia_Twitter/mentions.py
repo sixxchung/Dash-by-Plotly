@@ -1,8 +1,8 @@
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import dash
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 from dash.dependencies import Output, Input, State
 import pandas as pd
 import twitter  # pip install python-twitter
@@ -52,7 +52,8 @@ mentions_layout = html.Div(
                         html.Button(
                             id="hit-button",
                             children="Submit",
-                            style={"background-color": "blue", "color": "white"},
+                            style={"background-color": "blue",
+                                   "color": "white"},
                         )
                     ],
                     width=2,
@@ -96,7 +97,7 @@ mentions_layout = html.Div(
 def display_value(nclicks, num, acnt_handle):
     results = api.GetSearch(
         raw_query=f"q=%40{acnt_handle}&src=typed_query&count={num}"
-    )       #       q=%40MoveTheWorld%20until%3A2021-08-05%20since%3A2021-01-01&src=typed_query
+    )  # q=%40MoveTheWorld%20until%3A2021-08-05%20since%3A2021-01-01&src=typed_query
 
     twt_followers, twt_likes, twt_count, twt_friends, twt_name = [], [], [], [], []
     for line in results:
@@ -119,7 +120,8 @@ def display_value(nclicks, num, acnt_handle):
     print(df.head())
 
     most_followers = df.followers.max()
-    most_folwrs_account_name = df["name"][df.followers == most_followers].values[0]
+    most_folwrs_account_name = df["name"][df.followers ==
+                                          most_followers].values[0]
 
     scatter_fig = px.scatter(
         df, x="followers", y="likes", trendline="ols", hover_data={"name": True}

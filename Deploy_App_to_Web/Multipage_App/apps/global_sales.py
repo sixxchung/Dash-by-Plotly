@@ -1,5 +1,5 @@
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
@@ -19,22 +19,25 @@ layout = html.Div([
 
     html.Div([
         html.Div([
-            html.Pre(children="Payment type", style={"fontSize":"150%"}),
+            html.Pre(children="Payment type", style={"fontSize": "150%"}),
             dcc.Dropdown(
                 id='pymnt-dropdown', value='DEBIT', clearable=False,
                 persistence=True, persistence_type='session',
-                options=[{'label': x, 'value': x} for x in sorted(dfg["Type"].unique())]
+                options=[{'label': x, 'value': x}
+                         for x in sorted(dfg["Type"].unique())]
             )
         ], className='six columns'),
 
         html.Div([
-            html.Pre(children="Country of destination", style={"fontSize": "150%"}),
+            html.Pre(children="Country of destination",
+                     style={"fontSize": "150%"}),
             dcc.Dropdown(
                 id='country-dropdown', value='India', clearable=False,
                 persistence=True, persistence_type='local',
-                options=[{'label': x, 'value': x} for x in sorted(dfg["Order Country"].unique())]
+                options=[{'label': x, 'value': x}
+                         for x in sorted(dfg["Order Country"].unique())]
             )
-            ], className='six columns'),
+        ], className='six columns'),
     ], className='row'),
 
     dcc.Graph(id='my-map', figure={}),
@@ -55,4 +58,3 @@ def display_value(pymnt_chosen, country_chosen):
                         locationmode="USA-states", color="Sales",
                         scope="usa")
     return fig
-
